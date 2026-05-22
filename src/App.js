@@ -1,24 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
 
+import Sidebar from './components/Sidebar';
+import AppBody from './components/AppBody';
+import TitleBar from './components/TitleBar';
+import { useEffect, useState } from 'react';
+import { getTopics } from './services/topicsServices';
+import { useDispatch } from 'react-redux';
+import { setTopics } from './rtk/reducers/topicsDetailsReducer';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  let dispatch=useDispatch()
+  useEffect(()=>{
+   let getTopicsData=async()=>{
+    let topics=await getTopics()
+    dispatch(setTopics(topics))
+   }
+   getTopicsData()
+  },[])
+  return (<>
+    <TitleBar/>
+    <div className='flex flex-row h-[calc(100vh-35px)]'>
+      <Sidebar/>
+      <AppBody/>
     </div>
+    </>
   );
 }
 
