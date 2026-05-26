@@ -1,5 +1,9 @@
 {
   "name": "note_nest",
+  "productName": "Note Nest",
+  "description": "A desktop note‑taking app built with Electron and React",
+  "author": "Mahmoud Helal",
+  "homepage": "./",
   "version": "0.1.0",
   "private": true,
   "electron": "electron .",
@@ -18,6 +22,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
+    "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^8.2.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
@@ -27,12 +32,15 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "electron-forge start",
+      "react-start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"npm start\" \"npm run electron\"",
-    "electron": "wait-on tcp:3000 && electron ."
+    "dev": "concurrently \"npm run react-start\" \"npm run electron\"",
+    "electron": "wait-on tcp:3000 && electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "eslintConfig": {
     "extends": [
@@ -53,9 +61,16 @@
     ]
   },
   "devDependencies": {
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-deb": "^7.11.2",
+    "@electron-forge/maker-rpm": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/maker-zip": "^7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
+    "@electron-forge/plugin-fuses": "^7.11.2",
+    "@electron/fuses": "^1.8.0",
     "concurrently": "^9.2.1",
     "electron": "^42.1.0",
-    "electron-builder": "^26.8.1",
     "electron-is-dev": "^3.0.1",
     "tailwindcss": "^3.4.19",
     "wait-on": "^9.0.10"

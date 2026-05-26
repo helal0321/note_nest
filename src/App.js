@@ -5,23 +5,37 @@ import Sidebar from './components/Sidebar';
 import AppBody from './components/AppBody';
 import TitleBar from './components/TitleBar';
 import { useEffect, useState } from 'react';
-import { getTopics } from './services/topicsServices';
+import { getTopics, saveTopics } from './services/topicsServices';
 import { useDispatch } from 'react-redux';
 import { setTopics } from './rtk/reducers/topicsDetailsReducer';
+import { setTopicId } from './rtk/reducers/selectedTopicIdReducer';
 
 function App() {
   let dispatch=useDispatch()
   useEffect(()=>{
    let getTopicsData=async()=>{
     let topics=await getTopics()
-    dispatch(setTopics(topics))
+    if(topics[0]?.id==null){
+      let defaultTopic={id:Date.now(),title:"default",notes:[]}
+     await saveTopics([defaultTopic],dispatch)
+      
+         dispatch(setTopics([defaultTopic]))
+         dispatch(setTopicId(defaultTopic.id))
+
+
+    }else{
+          dispatch(setTopics(topics))
+          dispatch(setTopicId(topics[0].id))
+
+    }
+      
    }
    getTopicsData()
   },[])
   return (<>
     <TitleBar/>
     <div className='flex flex-row h-[calc(100vh-35px)]'>
-      <Sidebar/>
+      <Sidebar />
       <AppBody/>
     </div>
     </>

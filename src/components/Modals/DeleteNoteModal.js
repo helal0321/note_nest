@@ -1,10 +1,15 @@
 import React from "react";
 import Modal from "../Modal";
 import { MdDeleteForever } from "react-icons/md";
+import { deleteNote } from "../../services/notesServices";
+import { useDispatch } from "react-redux";
 
 
-const DeleteNoteModal = ({open,onClose}) => {
-  return <Modal open={open} onClose={()=>{onClose()}} isDeleteModal={true}>
+const DeleteNoteModal = ({open,onClose,topicId,noteId}) => {
+  const dispatch=useDispatch()
+  return <Modal open={open} onClose={()=>{onClose()}} isDeleteModal={true} onDelete={()=>{
+    deleteNote(topicId,noteId,dispatch)
+  }}>
             <div className='pt-20 text-center text-white'>
               <div className='flex justify-center mb-6s'>
                   <MdDeleteForever className='text-red-600 text-[150px] text-center'/>
