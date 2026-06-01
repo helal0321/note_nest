@@ -40,12 +40,12 @@ const NoteCard = ({ noteDetails }) => {
         noteId={noteDetails?.id}
       />
       <div className="bg-[#1a1a1a] border border-solid border-borderColor p-4 w-[calc(100%/3-20px)] h-[200px] flex flex-col justify-between rounded-xl">
-        <p className={`text-2xl mb-2 ${breakWordCheck(noteDetails?.title)&&'break-all'}`}>
+        <p className={`text-2xl mb-2 ${breakWordCheck(noteDetails?.title)?'break-all':''}`}>
           {noteDetails?.title?.length > 20
             ? `${noteDetails?.title?.slice(0, 21)}...`
             : noteDetails?.title}
         </p>
-        <p className={`text-secondaryText mb-2 ${breakWordCheck(noteDetails?.description)&&'break-all'}`}>
+        <p className={`text-secondaryText mb-2 ${breakWordCheck(noteDetails?.description)?'break-all':''}`}>
           {noteDetails?.description.length > 150
             ? `${noteDetails?.description.slice(0, 150)}...`
             : noteDetails?.description}

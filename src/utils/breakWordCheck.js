@@ -1,3 +1,3 @@
 export const breakWordCheck=(string)=>{
-    return string.split(" ")?.find((word)=>word.length>20)
+    return string?.split(" ")?.find((word)=>word?.length>20)
 }
