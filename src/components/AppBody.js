@@ -136,7 +136,7 @@ const AppBody = () => {
         </div>
         <Notes notes={filteredNotes} />
         <button
-          className="bg-secondaryColor w-[60px] h-[60px] rounded-tl-xl rounded-br-xl flex justify-center items-center opacity-50 hover:opacity-100 absolute bottom-10 right-10"
+          className="bg-secondaryColor w-[60px] h-[60px] rounded-tl-xl rounded-br-xl flex justify-center items-center opacity-50 hover:opacity-100 absolute bottom-16 right-16"
           onClick={() => {
             setCreateNoteModalOpenned(true);
           }}
