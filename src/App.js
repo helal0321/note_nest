@@ -10,19 +10,21 @@ import { useDispatch } from 'react-redux';
 import { setTopics } from './rtk/reducers/topicsDetailsReducer';
 import { setTopicId } from './rtk/reducers/selectedTopicIdReducer';
 
-function App() {
-  let dispatch=useDispatch()
-  useEffect(()=>{
-   let getTopicsData=async()=>{
-    let topics=await getTopics()
-    if(topics[0]?.id==null){
+  let makeDefaultTopic=async(dispatch)=>{
       let defaultTopic={id:Date.now(),title:"default",notes:[]}
      await saveTopics([defaultTopic],dispatch)
       
          dispatch(setTopics([defaultTopic]))
          dispatch(setTopicId(defaultTopic.id))
+}
+function App() {
+  let dispatch=useDispatch()
 
-
+  useEffect(()=>{
+   let getTopicsData=async()=>{
+    let topics=await getTopics()
+    if(topics[0]?.id==null){
+        makeDefaultTopic(dispatch)
     }else{
           dispatch(setTopics(topics))
           dispatch(setTopicId(topics[0].id))

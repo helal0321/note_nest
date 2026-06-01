@@ -9,7 +9,6 @@ const TitleBar = () => {
     <div className='flex flrex-row text-secondaryText text-md gap-4'>
       <button onClick={()=>{
         window.electronAPI.minimize()
-        console.log("electron api",window.electronAPI)
       }}><TbArrowsMinimize /></button>
       <button onClick={()=>{
         window.electronAPI.close()

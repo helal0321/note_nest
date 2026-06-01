@@ -1,4 +1,4 @@
-export const filterNotesBySerachtermAndDate=(DateOption,searchValue,selectedTopic)=>{
+export const filterNotesBySearchtermAndDate=(DateOption,searchValue,selectedTopic)=>{
             let filteredNotesBySearchAndDate=selectedTopic?.notes?.filter((note)=>note?.title?.includes(searchValue)||note?.description?.includes(searchValue))
         filteredNotesBySearchAndDate?.sort((a, b) => {
               const date1 = new Date(a.date);

@@ -12,7 +12,7 @@ import { CiExport } from "react-icons/ci";
 import CreateNoteModal from "./Modals/CreateNoteModal";
 import { addTopic, saveTopics } from "../services/topicsServices";
 import { MdOutlineTextRotationAngleup } from "react-icons/md";
-import { filterNotesBySerachtermAndDate } from "../utils/filterNotesBySearchTermAndDate";
+import { filterNotesBySearchtermAndDate } from "../utils/filterNotesBySearchTermAndDate";
 import { exportTopics, importTopics } from "../utils/importAndExportTopics";
 
 const AppBody = () => {
@@ -41,9 +41,12 @@ const AppBody = () => {
       getSelectedTopic()
   },[topics,selectedTopicId])
   useEffect(()=>{
-        setFilteredNotes(filterNotesBySerachtermAndDate(DateOption,searchValue,selectedTopic))
+        setFilteredNotes(filterNotesBySearchtermAndDate(DateOption,searchValue,selectedTopic))
   },[searchValue,DateOption,selectedTopic])
-
+  let handleSidebarStatus=()=>{
+        dispatch(openCloseSidebar())
+        setsidebarOpenned(!sidebarOpenned)
+  }
 
 
   return (<>
@@ -51,8 +54,7 @@ const AppBody = () => {
         <div className='h-[calc(100vh-35px)] overflow-y-scroll hide-scrollbar flex-1 bg-[#0a0a0a] p-6  text-white flex flex-col'>
       <div className='flex flex-row justify-between items-center mb-8'>
         <button className={`transform ${!sidebarOpenned&&'rotate-180'} text-2xl`} onClick={()=>{
-          dispatch(openCloseSidebar())
-          setsidebarOpenned(!sidebarOpenned)
+          handleSidebarStatus()
         }}><IoIosArrowBack /></button>
         <ul className='text-xl flex flex-row items-center gap-4'>
           <li title="import" className='border border-[1px] border-borderColor w-[40px] h-[40px] rounded-[50%] flex justify-center items-center cursor-pointer' onClick={async () => {

@@ -1,7 +1,15 @@
 import React, {useEffect, useState } from "react";
 import { MdOutlineClose } from "react-icons/md";
 import ReactDOM from "react-dom";
-const Modal = ({open,onClose,isDeleteModal=false,showButtons=true,onConfirm=()=>{},onDelete=()=>{},children}) => {
+const Modal = ({open,onClose,isDeleteModal=false,showButtons=true,onConfirm=()=>{},onDelete=()=>{},isValidInputs=true,children}) => {
+  let deleteItem=()=>{
+      onDelete()
+      onClose()
+  }
+  let confirmChanges=()=>{
+      onConfirm()
+      onClose()
+  }
   return ReactDOM.createPortal(
 <div className={`fixed z-60 w-full h-[100vh] inset-0 ${open==false&&'collapse'}`}>
 
@@ -13,11 +21,10 @@ const Modal = ({open,onClose,isDeleteModal=false,showButtons=true,onConfirm=()=>
                 onClose()
               }}>Cancel</button>
               {isDeleteModal?<button className='text-xl bg-red-600 w-[150px] py-4 rounded-lg' onClick={()=>{
-                onDelete()
-                onClose()
-              }}>Delete</button>:<button className='text-xl bg-secondaryColor w-[150px] text-center py-4 rounded-lg' onClick={()=>{
-                onConfirm()
-                onClose()
+                    deleteItem()
+              }}>Delete</button>:<button className={`text-xl bg-secondaryColor w-[150px] text-center py-4 rounded-lg ${isValidInputs?'opacity-100':'opacity-50 cursor-not-allowed'}`} disabled={!isValidInputs} onClick={()=>{
+                  if(isValidInputs==true){
+                    confirmChanges()}
                 }}>Save</button>}
             </div>}   
       </div>

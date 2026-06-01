@@ -18,9 +18,11 @@ function Sidebar() {
     const [deletedTopicId,setDeletedTopicId]=useState(null)
     const selectedTopicId=useSelector((state)=>state.selectedTopicId)
     const dispatch=useDispatch()
-
-
-
+    let openDeleteModalHandler=(e,topic)=>{
+          e.stopPropagation()
+          setOpenDeleteModal(true)
+          setDeletedTopicId(topic?.id)
+    }
   return (
     <>
       <DeleteTopicModal open={openDeleteModal} onClose={()=>{setOpenDeleteModal(false)}} topicId={deletedTopicId}/>
@@ -39,9 +41,7 @@ function Sidebar() {
           }}>
           <button >{topic?.title?.length>8?`${topic?.title?.slice(0,9)}...`:topic?.title}<span className='ml-1 inline-bock text-[15px] text-[#aaaaaa]'>({topic?.notes?.length})</span></button>
           <button className={`bg-red-600 w-[25px] h-[25px] flex justify-center items-center rounded-md ${topic?.id==selectedTopicId&&'collapse'}`} onClick={(e)=>{
-            e.stopPropagation()
-            setOpenDeleteModal(true)
-            setDeletedTopicId(topic?.id)
+            openDeleteModalHandler(e,topic)
           }}><MdOutlineDeleteForever /></button>
         </li >
        </> ))}
