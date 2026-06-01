@@ -84,7 +84,7 @@ function Sidebar() {
             ))}
           </ul>
         </div>
-        <div className="flex items-center justify-center w-full text-sm border-t border-t-borderColor h-12">
+        <div className="flex items-center justify-center w-full text-sm border-t border-t-borderColor py-4">
           <p className="">
             made with <FaHeart className="inline text-secondaryColor" /> by{" "}
             <a

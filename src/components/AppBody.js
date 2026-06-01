@@ -14,6 +14,7 @@ import { addTopic, saveTopics } from "../services/topicsServices";
 import { MdOutlineTextRotationAngleup } from "react-icons/md";
 import { filterNotesBySearchtermAndDate } from "../utils/filterNotesBySearchTermAndDate";
 import { exportTopics, importTopics } from "../utils/importAndExportTopics";
+import { breakWordCheck } from "../utils/breakWordCheck";
 
 const AppBody = () => {
   const dispatch = useDispatch();
@@ -93,7 +94,7 @@ const AppBody = () => {
           </ul>
         </div>
         <div className="flex flex-row justify-between items-center mb-6">
-          <h1 className="text-4xl">
+          <h1 className={`text-4xl ${breakWordCheck(selectedTopic?.title)&& 'break-all'}`}>
             {selectedTopic?.title}
             <span className="text-xl text-secondaryText ml-10">
               {selectedTopic?.notes?.length} notes
