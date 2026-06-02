@@ -1,5 +1,6 @@
 import React from "react";
 import NoteCard from "./NoteCard";
+import { DragOverlay } from "@dnd-kit/core";
 
 const Notes = ({ notes }) => {
   return (
