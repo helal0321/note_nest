@@ -47,7 +47,7 @@ function App() {
 
     let topicId = event?.over?.id;
     let note = event?.active?.data?.current?.note;
-    if (topicId && note && sidebarOpenned) {
+    if (topicId && note && sidebarOpenned&&topicId!=selectedTopicId) {
       await deleteNote(selectedTopicId, note?.id, dispatch);
       await addNote(
         {
