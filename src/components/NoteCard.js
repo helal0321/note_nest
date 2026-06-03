@@ -13,6 +13,7 @@ const NoteCard = ({ noteDetails }) => {
   let [openDeleteNoteModal, setOpenDeleteNoteModal] = useState(false);
   let [openEditeNoteModal, setOpenEditeNoteModal] = useState(false);
   let [openNoteDetailModal, setOpenNoteDetailModal] = useState(false);
+  const sidebarOpenned = useSelector((state) => state.openCloseSidebar);
   const selectedTopicId = useSelector((state) => state.selectedTopicId);
     const {setNodeRef,listeners, attributes,isDragging} = useDraggable({
     id: noteDetails?.id,
@@ -46,7 +47,7 @@ const NoteCard = ({ noteDetails }) => {
         noteId={noteDetails?.id}
       />
       <div ref={setNodeRef}  {...attributes} className={`relative bg-[#1a1a1a] border border-solid border-borderColor p-4 w-[calc(100%/3-20px)] h-[200px] flex flex-col justify-between rounded-xl ${isDragging?'opacity-50':'opacity-100'}`}>
-      <div className="absolute top-4 right-4 cursor-move" {...listeners}><RiDragMove2Fill className="text-lg"/></div>
+      {sidebarOpenned?<div className="absolute top-4 right-4 cursor-move" {...listeners}><RiDragMove2Fill className="text-lg"/></div>:null}
         <p className={`text-2xl mb-2 ${breakWordCheck(noteDetails?.title)?'break-all':''}`}>
           {noteDetails?.title?.length > 20
             ? `${noteDetails?.title?.slice(0, 21)}...`

@@ -25,6 +25,7 @@ function App() {
   let dispatch = useDispatch();
   const selectedTopicId = useSelector((state) => state.selectedTopicId);
   const [activeNote, setActiveNote] = useState(null);
+  const sidebarOpenned = useSelector((state) => state.openCloseSidebar);
   useEffect(() => {
     let getTopicsData = async () => {
       let topics = await getTopics();
@@ -46,7 +47,7 @@ function App() {
 
         let topicId=(event?.over?.id);
         let note=event?.active?.data?.current?.note
-        if(topicId&&note){
+        if(topicId&&note&&sidebarOpenned){
           
         await deleteNote(selectedTopicId,note?.id,dispatch)
         await addNote({title:note?.title,description:note?.description,date:note?.date},topicId,dispatch)}
