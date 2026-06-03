@@ -13,6 +13,7 @@ module.exports = {
       config: {
         name: "note_nest",
         setupIcon: path.join(__dirname, "public/noteNestIcon.ico"),
+        iconUrl: 'https://drive.google.com/uc?export=download&id=1bifhVERiu3LCd9Nu4Wo7b8GIzndCDgwj',
       },
     },
     {
