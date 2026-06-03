@@ -22,7 +22,7 @@ const SingleTopic = ({ topic }) => {
       />
       <li
         ref={setNodeRef}
-        className={`py-1 px-4 flex cursor-pointer flex-row mb-2 justify-between items-center ${isOver && topic?.id!=selectedTopicId ? "bg-secondaryColor" : topic?.id == selectedTopicId && "bg-cardColor"}`}
+        className={`py-1 px-4 flex cursor-pointer flex-row mb-2 justify-between items-center ${isOver && topic?.id != selectedTopicId ? "bg-secondaryColor" : topic?.id == selectedTopicId && "bg-cardColor"}`}
         onClick={() => {
           dispatch(setTopicId(topic?.id));
         }}

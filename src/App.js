@@ -13,6 +13,7 @@ import { DndContext, DragOverlay } from "@dnd-kit/core";
 import NoteCard from "./components/NoteCard";
 import OverlayCard from "./components/OverlayCard";
 import { addNote, deleteNote } from "./services/notesServices";
+import DragDrobOptionModal from "./components/Modals/DragDrobOptionModal";
 
 let makeDefaultTopic = async (dispatch) => {
   let defaultTopic = { id: Date.now(), title: "default", notes: [] };
@@ -26,6 +27,9 @@ function App() {
   const selectedTopicId = useSelector((state) => state.selectedTopicId);
   const [activeNote, setActiveNote] = useState(null);
   const sidebarOpenned = useSelector((state) => state.openCloseSidebar);
+  const [dragDrobOptionModalOpen, setDragDrobOptionModalOpen] = useState(false);
+  const [draggedNote, setDraggedNote] = useState({});
+  const [targetTopicId, setTargetTopicId] = useState("");
   useEffect(() => {
     let getTopicsData = async () => {
       let topics = await getTopics();
@@ -40,6 +44,7 @@ function App() {
   }, []);
   const handleDragStart = (event) => {
     setActiveNote(event.active.data?.current?.note);
+    setDraggedNote(event?.active?.data?.current?.note);
   };
   const handleDragEnd = async (event) => {
     setActiveNote(null);
@@ -47,21 +52,23 @@ function App() {
 
     let topicId = event?.over?.id;
     let note = event?.active?.data?.current?.note;
-    if (topicId && note && sidebarOpenned&&topicId!=selectedTopicId) {
-      await deleteNote(selectedTopicId, note?.id, dispatch);
-      await addNote(
-        {
-          title: note?.title,
-          description: note?.description,
-          date: note?.date,
-        },
-        topicId,
-        dispatch,
-      );
+    setTargetTopicId(topicId);
+    if (topicId && note && sidebarOpenned && topicId != selectedTopicId) {
+      setDragDrobOptionModalOpen(true);
     }
   };
   return (
     <>
+      <DragDrobOptionModal
+        open={dragDrobOptionModalOpen}
+        onClose={() => {
+          setDragDrobOptionModalOpen(false);
+          setTargetTopicId("");
+          setDraggedNote({});
+        }}
+        topicId={targetTopicId}
+        note={draggedNote}
+      />
       <TitleBar />
 
       <div className="flex flex-row h-[calc(100vh-35px)]">
