@@ -94,10 +94,13 @@ const AppBody = () => {
           </ul>
         </div>
         <div className="flex flex-row justify-between items-center mb-6">
-          <h1 className={`text-4xl ${breakWordCheck(selectedTopic?.title)?'break-all':''}`}>
+          <h1
+            className={`text-4xl ${breakWordCheck(selectedTopic?.title) ? "break-all" : ""}`}
+          >
             {selectedTopic?.title}
             <span className="text-xl text-secondaryText ml-10">
-              {selectedTopic?.notes?.length}{selectedTopic?.notes?.length==1?" note":" notes"} 
+              {selectedTopic?.notes?.length}
+              {selectedTopic?.notes?.length == 1 ? " note" : " notes"}
             </span>
           </h1>
           <div className="relative">

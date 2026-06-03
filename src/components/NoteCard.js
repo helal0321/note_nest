@@ -7,7 +7,7 @@ import { FaRegEye } from "react-icons/fa";
 import NoteDetailModal from "./Modals/NoteDetailsModal";
 import { useSelector } from "react-redux";
 import { breakWordCheck } from "../utils/breakWordCheck";
-import {DragOverlay, useDraggable} from '@dnd-kit/core';
+import { DragOverlay, useDraggable } from "@dnd-kit/core";
 import { RiDragMove2Fill } from "react-icons/ri";
 const NoteCard = ({ noteDetails }) => {
   let [openDeleteNoteModal, setOpenDeleteNoteModal] = useState(false);
@@ -15,11 +15,10 @@ const NoteCard = ({ noteDetails }) => {
   let [openNoteDetailModal, setOpenNoteDetailModal] = useState(false);
   const sidebarOpenned = useSelector((state) => state.openCloseSidebar);
   const selectedTopicId = useSelector((state) => state.selectedTopicId);
-    const {setNodeRef,listeners, attributes,isDragging} = useDraggable({
+  const { setNodeRef, listeners, attributes, isDragging } = useDraggable({
     id: noteDetails?.id,
-    data:{note:noteDetails}
+    data: { note: noteDetails },
   });
-  
 
   return (
     <>
@@ -46,14 +45,26 @@ const NoteCard = ({ noteDetails }) => {
         topicId={selectedTopicId}
         noteId={noteDetails?.id}
       />
-      <div ref={setNodeRef}  {...attributes} className={`relative bg-[#1a1a1a] border border-solid border-borderColor p-4 w-[calc(100%/3-20px)] h-[200px] flex flex-col justify-between rounded-xl ${isDragging?'opacity-50':'opacity-100'}`}>
-      {sidebarOpenned?<div className="absolute top-4 right-4 cursor-move" {...listeners}><RiDragMove2Fill className="text-lg"/></div>:null}
-        <p className={`text-2xl mb-2 ${breakWordCheck(noteDetails?.title)?'break-all':''}`}>
+      <div
+        ref={setNodeRef}
+        {...attributes}
+        className={`relative bg-[#1a1a1a] border border-solid border-borderColor p-4 w-[calc(100%/3-20px)] h-[200px] flex flex-col justify-between rounded-xl ${isDragging ? "opacity-50" : "opacity-100"}`}
+      >
+        {sidebarOpenned ? (
+          <div className="absolute top-4 right-4 cursor-move" {...listeners}>
+            <RiDragMove2Fill className="text-lg" />
+          </div>
+        ) : null}
+        <p
+          className={`text-2xl mb-2 ${breakWordCheck(noteDetails?.title) ? "break-all" : ""}`}
+        >
           {noteDetails?.title?.length > 20
             ? `${noteDetails?.title?.slice(0, 21)}...`
             : noteDetails?.title}
         </p>
-        <p className={`text-secondaryText mb-2 ${breakWordCheck(noteDetails?.description)?'break-all':''}`}>
+        <p
+          className={`text-secondaryText mb-2 ${breakWordCheck(noteDetails?.description) ? "break-all" : ""}`}
+        >
           {noteDetails?.description.length > 150
             ? `${noteDetails?.description?.slice(0, 150)}...`
             : noteDetails?.description}
@@ -63,7 +74,7 @@ const NoteCard = ({ noteDetails }) => {
           <div className="flex flex-row items-centers text-lg gap-2">
             <button
               onClick={(e) => {
-                e.stopPropagation()
+                e.stopPropagation();
                 setOpenEditeNoteModal(true);
               }}
             >
@@ -71,7 +82,7 @@ const NoteCard = ({ noteDetails }) => {
             </button>
             <button
               onClick={(e) => {
-                e.stopPropagation()
+                e.stopPropagation();
                 setOpenDeleteNoteModal(true);
               }}
             >
@@ -79,7 +90,7 @@ const NoteCard = ({ noteDetails }) => {
             </button>
             <button
               onClick={(e) => {
-                e.stopPropagation()
+                e.stopPropagation();
                 setOpenNoteDetailModal(true);
               }}
             >

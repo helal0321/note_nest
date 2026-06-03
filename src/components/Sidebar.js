@@ -39,7 +39,7 @@ function Sidebar() {
           </div>
           <ul className="text-[20px]">
             {topics?.map((topic) => (
-              <SingleTopic topic={topic}/>
+              <SingleTopic topic={topic} />
             ))}
           </ul>
         </div>

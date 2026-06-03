@@ -38,40 +38,46 @@ function App() {
     };
     getTopicsData();
   }, []);
-  const handleDragStart=(event)=>{
-        setActiveNote(event.active.data?.current?.note); 
-  }
-  const handleDragEnd=async(event)=>{
-        setActiveNote(null)
-        if (event.canceled) return;
+  const handleDragStart = (event) => {
+    setActiveNote(event.active.data?.current?.note);
+  };
+  const handleDragEnd = async (event) => {
+    setActiveNote(null);
+    if (event.canceled) return;
 
-        let topicId=(event?.over?.id);
-        let note=event?.active?.data?.current?.note
-        if(topicId&&note&&sidebarOpenned){
-          
-        await deleteNote(selectedTopicId,note?.id,dispatch)
-        await addNote({title:note?.title,description:note?.description,date:note?.date},topicId,dispatch)}
-
-
-  }
+    let topicId = event?.over?.id;
+    let note = event?.active?.data?.current?.note;
+    if (topicId && note && sidebarOpenned) {
+      await deleteNote(selectedTopicId, note?.id, dispatch);
+      await addNote(
+        {
+          title: note?.title,
+          description: note?.description,
+          date: note?.date,
+        },
+        topicId,
+        dispatch,
+      );
+    }
+  };
   return (
     <>
       <TitleBar />
 
       <div className="flex flex-row h-[calc(100vh-35px)]">
-               <DndContext               
-                     onDragStart={(event) => {
-                      handleDragStart(event)
-      }}
-      onDragEnd={(event) => {
-        handleDragEnd(event)
-      }}
-    >
-        <Sidebar />
-        <AppBody />
-      <DragOverlay >
-        {activeNote ? <OverlayCard noteDetails={activeNote} /> : null}
-      </DragOverlay>
+        <DndContext
+          onDragStart={(event) => {
+            handleDragStart(event);
+          }}
+          onDragEnd={(event) => {
+            handleDragEnd(event);
+          }}
+        >
+          <Sidebar />
+          <AppBody />
+          <DragOverlay>
+            {activeNote ? <OverlayCard noteDetails={activeNote} /> : null}
+          </DragOverlay>
         </DndContext>
       </div>
     </>
