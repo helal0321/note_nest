@@ -57,10 +57,15 @@ const UnlockTopicByPasswordModal = ({ open, onClose, topicId }) => {
         </p>
         <div className="mb-6">
           <p className="text-xl">Password</p>
-          <PasswordInput key={open} placeholder={"Password..."} value={password} onChange={(e) => {
+          <PasswordInput
+            key={open}
+            placeholder={"Password..."}
+            value={password}
+            onChange={(e) => {
               setPassword(e.target.value);
               setPasswordError("");
-            }}/>
+            }}
+          />
 
           {passwordError.length > 0 && (
             <p className="text-red-600">{passwordError}</p>

@@ -42,9 +42,14 @@ const AddPasswordModal = ({ open, onClose }) => {
         </p>
         <div className="mb-6">
           <p className="text-xl">Password</p>
-          <PasswordInput key={open} placeholder={"Password..."} value={password} onChange={(e) => {
+          <PasswordInput
+            key={open}
+            placeholder={"Password..."}
+            value={password}
+            onChange={(e) => {
               setPassword(e.target.value);
-            }}/>
+            }}
+          />
         </div>
       </div>
     </Modal>

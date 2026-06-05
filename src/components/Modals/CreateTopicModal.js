@@ -40,9 +40,13 @@ const CreateTopicModal = ({ open, onClose }) => {
         <p className="text-center text-2xl mb-6">Create New Topic</p>
         <div className="mb-6">
           <p className="text-xl">Title</p>
-          <TextInput placeholder={"Topic Title..."} value={topicData.title} onChange={(e) => {
+          <TextInput
+            placeholder={"Topic Title..."}
+            value={topicData.title}
+            onChange={(e) => {
               setTopicdata({ ...topicData, title: e.target.value });
-            }}/>
+            }}
+          />
         </div>
       </div>
     </Modal>

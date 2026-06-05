@@ -46,15 +46,23 @@ const EditeNoteModal = ({ open, onClose, noteDetails, topicId }) => {
         <p className="text-center text-2xl mb-6">Edit Existing Note</p>
         <div className="mb-6">
           <p className="text-xl">Title</p>
-          <TextInput placeholder={"Note Title..."} value={noteData.title}  onChange={(e) => {
+          <TextInput
+            placeholder={"Note Title..."}
+            value={noteData.title}
+            onChange={(e) => {
               setNoteData({ ...noteData, title: e.target.value });
-            }}/>
+            }}
+          />
         </div>
         <div>
           <p className="text-xl">Description</p>
-          <TextAreaInput placeholder={"Note Description..."} value={noteData.description} onChange={(e) => {
+          <TextAreaInput
+            placeholder={"Note Description..."}
+            value={noteData.description}
+            onChange={(e) => {
               setNoteData({ ...noteData, description: e.target.value });
-            }} />
+            }}
+          />
         </div>
       </div>
     </Modal>

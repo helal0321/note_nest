@@ -85,17 +85,17 @@ function App() {
       setDragDrobOptionModalOpen(true);
     }
   };
-  const resetTargettopicAndDraggedNote=()=>{
-          setTargetTopic({});
-          setDraggedNote({});
-  }
+  const resetTargettopicAndDraggedNote = () => {
+    setTargetTopic({});
+    setDraggedNote({});
+  };
   return (
     <>
       <DragDrobOptionModal
         open={dragDrobOptionModalOpen}
         onClose={() => {
           setDragDrobOptionModalOpen(false);
-          resetTargettopicAndDraggedNote()
+          resetTargettopicAndDraggedNote();
         }}
         topicId={targetTopic?.id}
         note={draggedNote}

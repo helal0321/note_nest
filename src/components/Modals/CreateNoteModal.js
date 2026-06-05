@@ -53,17 +53,23 @@ const CreateNoteModal = ({ open, onClose, topicId }) => {
         <p className="text-center text-2xl mb-6">Create New Note</p>
         <div className="mb-6">
           <p className="text-xl">Title</p>
-            <TextInput value={noteData.title}
-              placeholder={"Note Title..."}
-              onChange={(e)=>{
-                setNoteData({...noteData,title:e.target.value})
-              }} />
+          <TextInput
+            value={noteData.title}
+            placeholder={"Note Title..."}
+            onChange={(e) => {
+              setNoteData({ ...noteData, title: e.target.value });
+            }}
+          />
         </div>
         <div>
           <p className="text-xl">Description</p>
-          <TextAreaInput placeholder={"Topic Description..."} value={noteData.description} onChange={(e) => {
+          <TextAreaInput
+            placeholder={"Topic Description..."}
+            value={noteData.description}
+            onChange={(e) => {
               setNoteData({ ...noteData, description: e.target.value });
-            }} />
+            }}
+          />
         </div>
       </div>
     </Modal>
