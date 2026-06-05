@@ -23,18 +23,22 @@ const SingleTopic = ({ topic }) => {
   const { setNodeRef, isOver } = useDroppable({
     id: topic?.id,
   });
+  const handleLockTopic = async () => {
+    const checkPasswordResult = await checkGlobalPassword("");
+    if (checkPasswordResult) {
+      setOpenAddGlobalPasswordModal(true);
+    } else {
+      lockTopic(topic?.id, dispatch);
+    }
+  };
   const handleLoclOrUnlockTopic = async () => {
     if (topic?.locked == true) {
       setOpenUnlockTopicModal(true);
     } else {
-      const checkPasswordResult = await checkGlobalPassword("");
-      if (checkPasswordResult) {
-        setOpenAddGlobalPasswordModal(true);
-      } else {
-        lockTopic(topic?.id, dispatch);
-      }
+      handleLockTopic();
     }
   };
+
   return (
     <>
       <AddPasswordModal
@@ -59,14 +63,16 @@ const SingleTopic = ({ topic }) => {
       />
       <li
         ref={setNodeRef}
-        className={`py-1 px-4 flex ${topic?.locked ? "cursor-not-allowed" : "cursor-pointer"} flex-row mb-2 justify-between items-center ${isOver && topic?.id != selectedTopicId && topic?.locked == false ? "bg-secondaryColor" : topic?.id == selectedTopicId && "bg-cardColor"}`}
+        className={`py-1 px-4 flex cursor-pointer flex-row mb-2 justify-between items-center ${isOver && topic?.id != selectedTopicId && topic?.locked == false ? "bg-secondaryColor" : isOver && topic.id != selectedTopicId && topic.locked == true ? "bg-red-600" : topic?.id == selectedTopicId && "bg-cardColor"}`}
         onClick={() => {
-          if (topic?.locked == false) dispatch(setTopicId(topic?.id));
+          if (topic?.locked == false) {
+            dispatch(setTopicId(topic?.id));
+          } else {
+            setOpenUnlockTopicModal(true);
+          }
         }}
       >
-        <button
-          className={`${topic?.locked ? "cursor-not-allowed" : "cursor-pointer"}`}
-        >
+        <button>
           {topic?.title?.length > 8
             ? `${topic?.title?.slice(0, 8)}...`
             : topic?.title}

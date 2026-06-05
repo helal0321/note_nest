@@ -18,6 +18,7 @@ import {
   getGlobalPassword,
   saveGlobalPassword,
 } from "./services/globalPasswordServices";
+import UnlockTopicByPasswordModal from "./components/Modals/UnlockTopicByPasswordModal";
 let makeDefaultTopic = async (dispatch) => {
   let defaultTopic = {
     id: Date.now(),
@@ -44,6 +45,15 @@ function App() {
   const [dragDrobOptionModalOpen, setDragDrobOptionModalOpen] = useState(false);
   const [draggedNote, setDraggedNote] = useState({});
   const [targetTopic, setTargetTopic] = useState({});
+  const [openUnlockTopicModal, setOpenUnlockTopicModal] = useState(false);
+  const setFirstUnlockedTopicAsSelected = (topics) => {
+    for (let topic of topics) {
+      if (topic.locked == false) {
+        dispatch(setTopicId(topic.id));
+        break;
+      }
+    }
+  };
   useEffect(() => {
     let getTopicsData = async () => {
       let topics = await getTopics();
@@ -51,12 +61,7 @@ function App() {
         makeDefaultTopic(dispatch);
       } else {
         dispatch(setTopics(topics));
-        for (let topic of topics) {
-          if (topic.locked == false) {
-            dispatch(setTopicId(topic.id));
-            break;
-          }
-        }
+        setFirstUnlockedTopicAsSelected(topics);
       }
     };
     getTopicsData();
@@ -83,6 +88,8 @@ function App() {
       selectedTopic?.locked == false
     ) {
       setDragDrobOptionModalOpen(true);
+    } else if (selectedTopic?.locked) {
+      setOpenUnlockTopicModal(true);
     }
   };
   const resetTargettopicAndDraggedNote = () => {
@@ -91,6 +98,13 @@ function App() {
   };
   return (
     <>
+      <UnlockTopicByPasswordModal
+        topicId={targetTopic?.id}
+        open={openUnlockTopicModal}
+        onClose={() => {
+          setOpenUnlockTopicModal(false);
+        }}
+      />
       <DragDrobOptionModal
         open={dragDrobOptionModalOpen}
         onClose={() => {
