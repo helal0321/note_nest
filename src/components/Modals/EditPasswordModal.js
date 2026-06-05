@@ -10,36 +10,41 @@ const EditPasswordModal = ({ open, onClose }) => {
   const [newPassword, setNewPassword] = useState("");
   const [passwordMismatchError,setPasswordMismatchError]=useState("")
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
-  useEffect(() => {
+  const handleInputFieldsValidation=()=>{
     if (oldPassword.length > 0&&newPassword.length>0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
     }
+  }
+
+  useEffect(() => {
+      handleInputFieldsValidation()
   }, [oldPassword,newPassword]);
-  useEffect(()=>{
-      setPasswordMismatchError("")
-  },[oldPassword])
+  const resetInputFieldsAndErrorMessage=()=>{
+        setOldPassword("")
+        setNewPassword("")
+        setPasswordMismatchError("")
+  }
+  const handleEditPassword=async()=>{
+        let passwordMatchResult= await checkGlobalPassword(oldPassword)
+        if(passwordMatchResult){
+        saveGlobalPassword(newPassword)
+        resetInputFieldsAndErrorMessage()
+        onClose()}
+        else{
+            setPasswordMismatchError("old password is incorrect")
+        }
+  }
   return (
     <Modal
       open={open}
       onClose={() => {
         onClose();
-        setOldPassword("")
-        setNewPassword("")
-        setPasswordMismatchError("")
+        resetInputFieldsAndErrorMessage()
       }}
-      onConfirm={async() => {
-        let passwordMatchResult= await checkGlobalPassword(oldPassword)
-        if(passwordMatchResult){
-        saveGlobalPassword(newPassword)
-        setOldPassword("")
-        setNewPassword("")
-        setPasswordMismatchError("")
-        onClose()}
-        else{
-            setPasswordMismatchError("old password is incorrect")
-        }
+      onConfirm={() => {
+       handleEditPassword()
       }}
       isValidInputs={isInputsValueValid}
     >
@@ -54,6 +59,7 @@ const EditPasswordModal = ({ open, onClose }) => {
             value={oldPassword}
             onChange={(e) => {
               setOldPassword(e.target.value);
+              setPasswordMismatchError("")
             }}
           />
         {passwordMismatchError.length>0&&(<p className="text-red-600">{passwordMismatchError}</p>)}

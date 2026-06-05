@@ -9,34 +9,40 @@ const UnlockTopicByPasswordModal = ({ open, onClose,topicId }) => {
   const [password, setPassword] = useState("");
   const [passwordError,setPasswordError]=useState("")
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
-
-  useEffect(() => {
-    setPasswordError("")
-    if (password.length > 0) {
+    const handleInputFieldsValidation=()=>{
+      if (password.length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
     }
+    }
+  useEffect(() => {
+    handleInputFieldsValidation()
   }, [password]);
-  return (
-    <Modal
-      open={open}
-      onClose={() => {
-        onClose();
+  const resetInputFieldsAndErrorMessage=()=>{
         setPassword("");
         setPasswordError("")
-      }}
-      onConfirm={async() => {
+  }
+  const handleUnlockTopic=async()=>{
         let checkPasswordResult=await checkGlobalPassword(password)
         if(checkPasswordResult){
           unLockTopic(topicId,dispatch)
-          setPassword("");
-          setPasswordError("")
+          resetInputFieldsAndErrorMessage()
           onClose()
         }
         else{
           setPasswordError("password is incorrect")
         }
+  }
+  return (
+    <Modal
+      open={open}
+      onClose={() => {
+        onClose();
+        resetInputFieldsAndErrorMessage()
+      }}
+      onConfirm={async() => {
+       handleUnlockTopic()
       }}
       isValidInputs={isInputsValueValid}
     >
@@ -51,6 +57,7 @@ const UnlockTopicByPasswordModal = ({ open, onClose,topicId }) => {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
+              setPasswordError("")
             }}
           />
           {passwordError.length>0&&(<p className="text-red-600">{passwordError}</p>)}

@@ -19,6 +19,18 @@ const SingleTopic = ({ topic }) => {
   const { setNodeRef, isOver } = useDroppable({
     id: topic?.id,
   });
+  const handleLoclOrUnlockTopic=async()=>{
+            if(topic?.locked==true){
+              setOpenUnlockTopicModal(true)
+            }
+            else{
+              const checkPasswordResult=await checkGlobalPassword("")
+              if(checkPasswordResult){
+                  setOpenAddGlobalPasswordModal(true)
+              }else{
+              lockTopic(topic?.id,dispatch)}
+            }
+  }
   return (
     <>
     <AddPasswordModal open={openAddGlobalPasswordModal} onClose={()=>{
@@ -62,18 +74,9 @@ const SingleTopic = ({ topic }) => {
         </button>}
           <button
           className={`bg-borderColor w-[25px] h-[25px] flex justify-center items-center rounded-md ${topic?.id == selectedTopicId && "collapse"}`}
-          onClick={async(e) => {
+          onClick={(e) => {
             e.stopPropagation();
-            if(topic?.locked==true){
-              setOpenUnlockTopicModal(true)
-            }
-            else{
-              const checkPasswordResult=await checkGlobalPassword("")
-              if(checkPasswordResult){
-                  setOpenAddGlobalPasswordModal(true)
-              }else{
-              lockTopic(topic?.id,dispatch)}
-            }
+            handleLoclOrUnlockTopic()
           
           }}
         >

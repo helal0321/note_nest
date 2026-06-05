@@ -57,6 +57,15 @@ const AppBody = () => {
     dispatch(openCloseSidebar());
     setsidebarOpenned(!sidebarOpenned);
   };
+  const handlePasswordChangeModal=async()=>{
+    let passwordMatchResult= await checkGlobalPassword("")
+    if(passwordMatchResult){
+        setOpenAddPasswordModal(true)
+
+    }else{
+        setOpenEditPasswordModal(true)
+        }
+  }
   return (
     <>
       <CreateNoteModal
@@ -105,13 +114,7 @@ const AppBody = () => {
             <li
               className="border border-[1px] border-borderColor w-[40px] h-[40px] rounded-[50%] flex justify-center items-center cursor-pointer"
               onClick={async() => {
-                let passwordMatchResult= await checkGlobalPassword("")
-                if(passwordMatchResult){
-                  setOpenAddPasswordModal(true)
-
-                }else{
-                    setOpenEditPasswordModal(true)
-                }
+                  handlePasswordChangeModal()
               }}
             >
                 <TbLockPassword/>
