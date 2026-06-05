@@ -7,31 +7,31 @@ const CreateTopicModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const [topicData, setTopicdata] = useState({ title: "", notes: [] });
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
-  const handleInputFieldsValidation=()=>{
- if (topicData.title.length > 0) {
+  const handleInputFieldsValidation = () => {
+    if (topicData.title.length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
     }
-  }
-  
+  };
+
   useEffect(() => {
-   handleInputFieldsValidation()
+    handleInputFieldsValidation();
   }, [topicData]);
-  const resetTopicData=()=>{
-      setTopicdata({ title: "", notes: [] });
-  }
+  const resetTopicData = () => {
+    setTopicdata({ title: "", notes: [] });
+  };
   return (
     <Modal
       open={open}
       onClose={() => {
         onClose();
-        resetTopicData()
+        resetTopicData();
       }}
       onConfirm={() => {
         addTopic(topicData, dispatch);
-        onClose()
-        resetTopicData()
+        onClose();
+        resetTopicData();
       }}
       isValidInputs={isInputsValueValid}
     >

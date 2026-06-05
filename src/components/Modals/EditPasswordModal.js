@@ -2,54 +2,59 @@ import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { addTopic } from "../../services/topicsServices";
 import { useDispatch } from "react-redux";
-import { checkGlobalPassword, saveGlobalPassword } from "../../services/globalPasswordServices";
+import {
+  checkGlobalPassword,
+  saveGlobalPassword,
+} from "../../services/globalPasswordServices";
 
 const EditPasswordModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [passwordMismatchError,setPasswordMismatchError]=useState("")
+  const [passwordMismatchError, setPasswordMismatchError] = useState("");
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
-  const handleInputFieldsValidation=()=>{
-    if (oldPassword.length > 0&&newPassword.length>0) {
+  const handleInputFieldsValidation = () => {
+    if (oldPassword.length > 0 && newPassword.length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
     }
-  }
+  };
 
   useEffect(() => {
-      handleInputFieldsValidation()
-  }, [oldPassword,newPassword]);
-  const resetInputFieldsAndErrorMessage=()=>{
-        setOldPassword("")
-        setNewPassword("")
-        setPasswordMismatchError("")
-  }
-  const handleEditPassword=async()=>{
-        let passwordMatchResult= await checkGlobalPassword(oldPassword)
-        if(passwordMatchResult){
-        saveGlobalPassword(newPassword)
-        resetInputFieldsAndErrorMessage()
-        onClose()}
-        else{
-            setPasswordMismatchError("old password is incorrect")
-        }
-  }
+    handleInputFieldsValidation();
+  }, [oldPassword, newPassword]);
+  const resetInputFieldsAndErrorMessage = () => {
+    setOldPassword("");
+    setNewPassword("");
+    setPasswordMismatchError("");
+  };
+  const handleEditPassword = async () => {
+    let passwordMatchResult = await checkGlobalPassword(oldPassword);
+    if (passwordMatchResult) {
+      saveGlobalPassword(newPassword);
+      resetInputFieldsAndErrorMessage();
+      onClose();
+    } else {
+      setPasswordMismatchError("old password is incorrect");
+    }
+  };
   return (
     <Modal
       open={open}
       onClose={() => {
         onClose();
-        resetInputFieldsAndErrorMessage()
+        resetInputFieldsAndErrorMessage();
       }}
       onConfirm={() => {
-       handleEditPassword()
+        handleEditPassword();
       }}
       isValidInputs={isInputsValueValid}
     >
       <div className="text-white pt-10 px-10">
-        <p className="text-center text-2xl mb-6">Edit Password For Locked Topics</p>
+        <p className="text-center text-2xl mb-6">
+          Edit Password For Locked Topics
+        </p>
         <div className="mb-6">
           <p className="text-xl">Old Password</p>
           <input
@@ -59,11 +64,13 @@ const EditPasswordModal = ({ open, onClose }) => {
             value={oldPassword}
             onChange={(e) => {
               setOldPassword(e.target.value);
-              setPasswordMismatchError("")
+              setPasswordMismatchError("");
             }}
           />
-        {passwordMismatchError.length>0&&(<p className="text-red-600">{passwordMismatchError}</p>)}
-        <p className="text-xl mt-4">New Password</p>
+          {passwordMismatchError.length > 0 && (
+            <p className="text-red-600">{passwordMismatchError}</p>
+          )}
+          <p className="text-xl mt-4">New Password</p>
           <input
             type="password"
             placeholder="New Password..."

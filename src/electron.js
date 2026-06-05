@@ -30,11 +30,13 @@ function createWindow() {
   ipcMain.on("minimize", () => mainWindow.minimize());
   ipcMain.handle("get-topics", () => store.get("topics", []));
   ipcMain.handle("save-topics", (event, topics) => store.set("topics", topics));
-  ipcMain.handle("set-global-password", (event, password) => {store.set("globalPassword", password);});
-  ipcMain.handle("get-global-password", () => store.get("globalPassword",""));
+  ipcMain.handle("set-global-password", (event, password) => {
+    store.set("globalPassword", password);
+  });
+  ipcMain.handle("get-global-password", () => store.get("globalPassword", ""));
   ipcMain.handle("export-data", async () => {
     const topics = store.get("topics", []);
-    let unlockedTopics=topics.filter((topic)=>topic.locked==false)
+    let unlockedTopics = topics.filter((topic) => topic.locked == false);
     const savePath = dialog.showSaveDialogSync({
       title: "Export Notes",
       defaultPath: "notes.json",

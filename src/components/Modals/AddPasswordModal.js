@@ -8,35 +8,37 @@ const AddPasswordModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const [password, setPassword] = useState("");
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
-   const handleInputFieldsValidation=()=>{
+  const handleInputFieldsValidation = () => {
     if (password.length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
     }
-   }
+  };
   useEffect(() => {
-    handleInputFieldsValidation()
+    handleInputFieldsValidation();
   }, [password]);
-  const resetInputField=()=>{
-      setPassword("");
-  }
+  const resetInputField = () => {
+    setPassword("");
+  };
   return (
     <Modal
       open={open}
       onClose={() => {
         onClose();
-        resetInputField()
+        resetInputField();
       }}
       onConfirm={() => {
-        saveGlobalPassword(password)
-        resetInputField()
-        onClose()
+        saveGlobalPassword(password);
+        resetInputField();
+        onClose();
       }}
       isValidInputs={isInputsValueValid}
     >
       <div className="text-white pt-10 px-10">
-        <p className="text-center text-2xl mb-6">Add Password For Locked Topics</p>
+        <p className="text-center text-2xl mb-6">
+          Add Password For Locked Topics
+        </p>
         <div className="mb-6">
           <p className="text-xl">Password</p>
           <input
