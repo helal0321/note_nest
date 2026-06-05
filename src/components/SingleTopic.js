@@ -4,8 +4,16 @@ import { setTopicId } from "../rtk/reducers/selectedTopicIdReducer";
 import { useDroppable } from "@dnd-kit/core";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { CiUnlock } from "react-icons/ci";
+import { lockTopic, unLockTopic } from "../services/topicsServices";
+import { CiLock } from "react-icons/ci";
+import UnlockTopicByPasswordModal from "./Modals/UnlockTopicByPasswordModal";
+import AddPasswordModal from "./Modals/AddPasswordModal";
+import { checkGlobalPassword, getGlobalPassword } from "../services/globalPasswordServices";
 const SingleTopic = ({ topic }) => {
   let [openDeleteModal, setOpenDeleteModal] = useState(false);
+  let [openUnlockTopicModal,setOpenUnlockTopicModal]=useState(false)
+  let [openAddGlobalPasswordModal,setOpenAddGlobalPasswordModal]=useState(false)
   const selectedTopicId = useSelector((state) => state.selectedTopicId);
   const dispatch = useDispatch();
   const { setNodeRef, isOver } = useDroppable({
@@ -13,6 +21,12 @@ const SingleTopic = ({ topic }) => {
   });
   return (
     <>
+    <AddPasswordModal open={openAddGlobalPasswordModal} onClose={()=>{
+      setOpenAddGlobalPasswordModal(false)
+    }}/>
+    <UnlockTopicByPasswordModal open={openUnlockTopicModal} onClose={()=>{
+      setOpenUnlockTopicModal(false)
+    }} topicId={topic?.id} />
       <DeleteTopicModal
         open={openDeleteModal}
         onClose={() => {
@@ -22,20 +36,22 @@ const SingleTopic = ({ topic }) => {
       />
       <li
         ref={setNodeRef}
-        className={`py-1 px-4 flex cursor-pointer flex-row mb-2 justify-between items-center ${isOver && topic?.id != selectedTopicId ? "bg-secondaryColor" : topic?.id == selectedTopicId && "bg-cardColor"}`}
+        className={`py-1 px-4 flex ${topic?.locked?'cursor-not-allowed':'cursor-pointer'} flex-row mb-2 justify-between items-center ${isOver && topic?.id != selectedTopicId &&topic?.locked==false? "bg-secondaryColor" : topic?.id == selectedTopicId && "bg-cardColor"}`}
         onClick={() => {
-          dispatch(setTopicId(topic?.id));
+          if(topic?.locked==false)
+             dispatch(setTopicId(topic?.id));
         }}
       >
-        <button>
+        <button className={`${topic?.locked?'cursor-not-allowed':'cursor-pointer'}`}>
           {topic?.title?.length > 8
-            ? `${topic?.title?.slice(0, 9)}...`
+            ? `${topic?.title?.slice(0, 8)}...`
             : topic?.title}
           <span className="ml-1 inline-bock text-[15px] text-[#aaaaaa]">
-            ({topic?.notes?.length})
+            {!topic?.locked&&`(${topic?.notes?.length})`}
           </span>
         </button>
-        <button
+        <div className="flex flex-row items-center gap-1">
+       { !topic?.locked&&<button
           className={`bg-red-600 w-[25px] h-[25px] flex justify-center items-center rounded-md ${topic?.id == selectedTopicId && "collapse"}`}
           onClick={(e) => {
             e.stopPropagation();
@@ -43,7 +59,28 @@ const SingleTopic = ({ topic }) => {
           }}
         >
           <MdOutlineDeleteForever />
+        </button>}
+          <button
+          className={`bg-borderColor w-[25px] h-[25px] flex justify-center items-center rounded-md ${topic?.id == selectedTopicId && "collapse"}`}
+          onClick={async(e) => {
+            e.stopPropagation();
+            if(topic?.locked==true){
+              setOpenUnlockTopicModal(true)
+            }
+            else{
+              const checkPasswordResult=await checkGlobalPassword("")
+              if(checkPasswordResult){
+                  setOpenAddGlobalPasswordModal(true)
+              }else{
+              lockTopic(topic?.id,dispatch)}
+            }
+          
+          }}
+        >
+              {topic.locked?<CiLock className="text-red-600"/>:<CiUnlock className="text-green-600" />}
         </button>
+        </div>
+
       </li>
     </>
   );

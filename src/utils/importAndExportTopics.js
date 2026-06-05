@@ -14,6 +14,7 @@ export const importTopics = async (topics, dispatch) => {
         title: topic.title,
         notes: topic.notes,
         id: Date.now() + index,
+        locked:false
       };
     }),
   ];

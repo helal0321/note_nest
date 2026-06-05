@@ -11,12 +11,15 @@ const CreateNoteModal = ({ open, onClose, topicId }) => {
   });
   const dispatch = useDispatch();
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
-  useEffect(() => {
-    if (noteData.title.length > 0 && noteData.description.length > 0) {
+     const handleInputFieldsValidation=()=>{
+      if (noteData.title.length > 0 && noteData.description.length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
     }
+     }
+  useEffect(() => {
+      handleInputFieldsValidation()
   }, [noteData]);
   let addNewNote = () => {
     const today = new Date();
@@ -27,15 +30,22 @@ const CreateNoteModal = ({ open, onClose, topicId }) => {
     });
     addNote({ ...noteData, date: formattedDate }, topicId, dispatch);
   };
+  const resetNoteData=()=>{
+    setNoteData({ title: "", description: "", date: "" });
+
+  }
   return (
     <Modal
       open={open}
       onClose={() => {
         onClose();
-        setNoteData({ title: "", description: "", date: "" });
+        resetNoteData()
       }}
       onConfirm={() => {
         addNewNote();
+        onClose()
+        resetNoteData()
+
       }}
       isValidInputs={isInputsValueValid}
     >

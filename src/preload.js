@@ -7,4 +7,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   exportData: () => ipcRenderer.invoke("export-data"),
   importData: () => ipcRenderer.invoke("import-data"),
   openExternalLink: (url) => ipcRenderer.invoke("open-external-link", url),
+  setGlobalPassword: (password) => ipcRenderer.invoke("set-global-password",password),
+  getGlobalPassword: () => ipcRenderer.invoke("get-global-password"),
+
 });

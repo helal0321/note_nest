@@ -15,7 +15,10 @@ import { MdOutlineTextRotationAngleup } from "react-icons/md";
 import { filterNotesBySearchtermAndDate } from "../utils/filterNotesBySearchTermAndDate";
 import { exportTopics, importTopics } from "../utils/importAndExportTopics";
 import { breakWordCheck } from "../utils/breakWordCheck";
-
+import { TbLockPassword } from "react-icons/tb";
+import AddPasswordModal from "./Modals/AddPasswordModal";
+import EditPasswordModal from "./Modals/EditPasswordModal";
+import { checkGlobalPassword } from "../services/globalPasswordServices";
 const AppBody = () => {
   const dispatch = useDispatch();
   let [sidebarOpenned, setsidebarOpenned] = useState(true);
@@ -26,6 +29,8 @@ const AppBody = () => {
   const [filteredNotes, setFilteredNotes] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState({});
   const [searchValue, setSearchValue] = useState("");
+  const [openAddPasswordModal,setOpenAddPasswordModal]=useState(false)
+  const [openEditPasswordModal,setOpenEditPasswordModal]=useState(false)
   const resetFilteredNotesAndInputFields = () => {
     setFilteredNotes(selectedTopic?.notes);
     setSearchValue("");
@@ -52,7 +57,6 @@ const AppBody = () => {
     dispatch(openCloseSidebar());
     setsidebarOpenned(!sidebarOpenned);
   };
-
   return (
     <>
       <CreateNoteModal
@@ -62,6 +66,13 @@ const AppBody = () => {
         }}
         topicId={selectedTopicId}
       />
+      <AddPasswordModal open={openAddPasswordModal}
+      onClose={()=>{
+        setOpenAddPasswordModal(false)
+      }}/>
+      <EditPasswordModal open={openEditPasswordModal} onClose={()=>{
+        setOpenEditPasswordModal(false)
+      }}/>
       <div className="h-[calc(100vh-35px)] overflow-y-scroll hide-scrollbar flex-1 bg-[#0a0a0a] p-6  text-white flex flex-col">
         <div className="flex flex-row justify-between items-center mb-8">
           <button
@@ -90,6 +101,20 @@ const AppBody = () => {
               }}
             >
               <CiExport />
+            </li>
+            <li
+              className="border border-[1px] border-borderColor w-[40px] h-[40px] rounded-[50%] flex justify-center items-center cursor-pointer"
+              onClick={async() => {
+                let passwordMatchResult= await checkGlobalPassword("")
+                if(passwordMatchResult){
+                  setOpenAddPasswordModal(true)
+
+                }else{
+                    setOpenEditPasswordModal(true)
+                }
+              }}
+            >
+                <TbLockPassword/>
             </li>
           </ul>
         </div>

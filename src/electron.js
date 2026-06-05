@@ -25,12 +25,16 @@ function createWindow() {
     },
   });
   mainWindow.maximize();
+  // mainWindow.openDevTools()
   ipcMain.on("close", () => mainWindow.close());
   ipcMain.on("minimize", () => mainWindow.minimize());
   ipcMain.handle("get-topics", () => store.get("topics", []));
   ipcMain.handle("save-topics", (event, topics) => store.set("topics", topics));
+  ipcMain.handle("set-global-password", (event, password) => {store.set("globalPassword", password);});
+  ipcMain.handle("get-global-password", () => store.get("globalPassword",""));
   ipcMain.handle("export-data", async () => {
     const topics = store.get("topics", []);
+    let unlockedTopics=topics.filter((topic)=>topic.locked==false)
     const savePath = dialog.showSaveDialogSync({
       title: "Export Notes",
       defaultPath: "notes.json",
@@ -38,7 +42,7 @@ function createWindow() {
     });
 
     if (savePath) {
-      fs.writeFileSync(savePath, JSON.stringify(topics, null, 2));
+      fs.writeFileSync(savePath, JSON.stringify(unlockedTopics, null, 2));
       return { success: true, path: savePath };
     }
     return { success: false };

@@ -5,8 +5,8 @@ export const filterNotesBySearchtermAndDate = (
 ) => {
   let filteredNotesBySearchAndDate = selectedTopic?.notes?.filter(
     (note) =>
-      note?.title?.includes(searchValue) ||
-      note?.description?.includes(searchValue),
+      note?.title?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      note?.description?.toLowerCase().includes(searchValue.toLowerCase()),
   );
   filteredNotesBySearchAndDate?.sort((a, b) => {
     const date1 = new Date(a.date);

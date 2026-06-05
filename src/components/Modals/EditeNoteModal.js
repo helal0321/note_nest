@@ -13,22 +13,30 @@ const EditeNoteModal = ({ open, onClose, noteDetails, topicId }) => {
       description: noteDetails.description,
     });
   }, [open, noteDetails]);
-  useEffect(() => {
-    if (noteData.title.length > 0 && noteData.description.length > 0) {
+  const handleInputFieldsValidation=()=>{
+ if (noteData.title.length > 0 && noteData.description.length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
     }
+  }
+  useEffect(() => {
+   handleInputFieldsValidation()
   }, [noteData]);
+  const resetNoteData=()=>{
+    setNoteData({ title: "", description: "" });
+  }
   return (
     <Modal
       open={open}
       onClose={() => {
         onClose();
-        setNoteData({ title: "", description: "" });
+        resetNoteData()
       }}
       onConfirm={() => {
         editeNote(topicId, noteDetails.id, noteData, dispatch);
+        onClose()
+        resetNoteData()
       }}
       isValidInputs={isInputsValueValid}
     >

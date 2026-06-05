@@ -17,7 +17,6 @@ const Modal = ({
   };
   let confirmChanges = () => {
     onConfirm();
-    onClose();
   };
   return ReactDOM.createPortal(
     <div

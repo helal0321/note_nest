@@ -2,50 +2,50 @@ import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { addTopic } from "../../services/topicsServices";
 import { useDispatch } from "react-redux";
+import { saveGlobalPassword } from "../../services/globalPasswordServices";
 
-const CreateTopicModal = ({ open, onClose }) => {
+const AddPasswordModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
-  const [topicData, setTopicdata] = useState({ title: "", notes: [] });
+  const [password, setPassword] = useState("");
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
-  const handleInputFieldsValidation=()=>{
- if (topicData.title.length > 0) {
+   const handleInputFieldsValidation=()=>{
+    if (password.length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
     }
-  }
-  
+   }
   useEffect(() => {
-   handleInputFieldsValidation()
-  }, [topicData]);
-  const resetTopicData=()=>{
-      setTopicdata({ title: "", notes: [] });
+    handleInputFieldsValidation()
+  }, [password]);
+  const resetInputField=()=>{
+      setPassword("");
   }
   return (
     <Modal
       open={open}
       onClose={() => {
         onClose();
-        resetTopicData()
+        resetInputField()
       }}
       onConfirm={() => {
-        addTopic(topicData, dispatch);
+        saveGlobalPassword(password)
+        resetInputField()
         onClose()
-        resetTopicData()
       }}
       isValidInputs={isInputsValueValid}
     >
       <div className="text-white pt-10 px-10">
-        <p className="text-center text-2xl mb-6">Create New Topic</p>
+        <p className="text-center text-2xl mb-6">Add Password For Locked Topics</p>
         <div className="mb-6">
-          <p className="text-xl">Title</p>
+          <p className="text-xl">Password</p>
           <input
-            type="text"
-            placeholder="Topic Title..."
+            type="password"
+            placeholder="Password..."
             className="bg-borderColor p-4 w-full rounded-xl"
-            value={topicData.title}
+            value={password}
             onChange={(e) => {
-              setTopicdata({ ...topicData, title: e.target.value });
+              setPassword(e.target.value);
             }}
           />
         </div>
@@ -54,4 +54,4 @@ const CreateTopicModal = ({ open, onClose }) => {
   );
 };
 
-export default CreateTopicModal;
+export default AddPasswordModal;
