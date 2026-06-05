@@ -6,6 +6,7 @@ import {
   checkGlobalPassword,
   saveGlobalPassword,
 } from "../../services/globalPasswordServices";
+import PasswordInput from "../PasswordInput";
 
 const EditPasswordModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
@@ -57,29 +58,17 @@ const EditPasswordModal = ({ open, onClose }) => {
         </p>
         <div className="mb-6">
           <p className="text-xl">Old Password</p>
-          <input
-            type="password"
-            placeholder="Old Password..."
-            className="bg-borderColor p-4 w-full rounded-xl"
-            value={oldPassword}
-            onChange={(e) => {
+          <PasswordInput key={open} placeholder={"Old Password..."} value={oldPassword} onChange={(e) => {
               setOldPassword(e.target.value);
               setPasswordMismatchError("");
-            }}
-          />
+            }}/>
           {passwordMismatchError.length > 0 && (
             <p className="text-red-600">{passwordMismatchError}</p>
           )}
           <p className="text-xl mt-4">New Password</p>
-          <input
-            type="password"
-            placeholder="New Password..."
-            className="bg-borderColor p-4 w-full rounded-xl"
-            value={newPassword}
-            onChange={(e) => {
+          <PasswordInput key={open?0:1} placeholder={"New Password..."} value={newPassword} onChange={(e) => {
               setNewPassword(e.target.value);
-            }}
-          />
+            }}/>
         </div>
       </div>
     </Modal>

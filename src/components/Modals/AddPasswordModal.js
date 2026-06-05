@@ -3,6 +3,7 @@ import Modal from "../Modal";
 import { addTopic } from "../../services/topicsServices";
 import { useDispatch } from "react-redux";
 import { saveGlobalPassword } from "../../services/globalPasswordServices";
+import PasswordInput from "../PasswordInput";
 
 const AddPasswordModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
@@ -41,15 +42,9 @@ const AddPasswordModal = ({ open, onClose }) => {
         </p>
         <div className="mb-6">
           <p className="text-xl">Password</p>
-          <input
-            type="password"
-            placeholder="Password..."
-            className="bg-borderColor p-4 w-full rounded-xl"
-            value={password}
-            onChange={(e) => {
+          <PasswordInput key={open} placeholder={"Password..."} value={password} onChange={(e) => {
               setPassword(e.target.value);
-            }}
-          />
+            }}/>
         </div>
       </div>
     </Modal>

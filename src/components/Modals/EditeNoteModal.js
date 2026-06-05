@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { editeNote } from "../../services/notesServices";
 import { useDispatch } from "react-redux";
+import TextInput from "../TextInput";
+import TextAreaInput from "../TextAreaInput";
 
 const EditeNoteModal = ({ open, onClose, noteDetails, topicId }) => {
   const [noteData, setNoteData] = useState({ title: "", description: "" });
@@ -44,26 +46,15 @@ const EditeNoteModal = ({ open, onClose, noteDetails, topicId }) => {
         <p className="text-center text-2xl mb-6">Edit Existing Note</p>
         <div className="mb-6">
           <p className="text-xl">Title</p>
-          <input
-            type="text"
-            placeholder="Note Title..."
-            className="bg-borderColor p-4 w-full rounded-xl"
-            value={noteData.title}
-            onChange={(e) => {
+          <TextInput placeholder={"Note Title..."} value={noteData.title}  onChange={(e) => {
               setNoteData({ ...noteData, title: e.target.value });
-            }}
-          />
+            }}/>
         </div>
         <div>
           <p className="text-xl">Description</p>
-          <textarea
-            placeholder="Note Description..."
-            className="h-[200px] bg-borderColor p-4 w-full rounded-xl"
-            value={noteData.description}
-            onChange={(e) => {
+          <TextAreaInput placeholder={"Note Description..."} value={noteData.description} onChange={(e) => {
               setNoteData({ ...noteData, description: e.target.value });
-            }}
-          ></textarea>
+            }} />
         </div>
       </div>
     </Modal>

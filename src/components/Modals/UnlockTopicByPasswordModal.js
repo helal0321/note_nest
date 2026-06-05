@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { addTopic, unLockTopic } from "../../services/topicsServices";
 import { useDispatch } from "react-redux";
+import { IoEye } from "react-icons/io5";
+import { IoMdEyeOff } from "react-icons/io";
 import {
   checkGlobalPassword,
   saveGlobalPassword,
 } from "../../services/globalPasswordServices";
+import PasswordInput from "../PasswordInput";
 
 const UnlockTopicByPasswordModal = ({ open, onClose, topicId }) => {
   const dispatch = useDispatch();
@@ -54,16 +57,11 @@ const UnlockTopicByPasswordModal = ({ open, onClose, topicId }) => {
         </p>
         <div className="mb-6">
           <p className="text-xl">Password</p>
-          <input
-            type="password"
-            placeholder="Password..."
-            className="bg-borderColor p-4 w-full rounded-xl"
-            value={password}
-            onChange={(e) => {
+          <PasswordInput key={open} placeholder={"Password..."} value={password} onChange={(e) => {
               setPassword(e.target.value);
               setPasswordError("");
-            }}
-          />
+            }}/>
+
           {passwordError.length > 0 && (
             <p className="text-red-600">{passwordError}</p>
           )}

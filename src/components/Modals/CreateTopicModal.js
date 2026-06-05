@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { addTopic } from "../../services/topicsServices";
 import { useDispatch } from "react-redux";
+import TextInput from "../TextInput";
 
 const CreateTopicModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
@@ -39,15 +40,9 @@ const CreateTopicModal = ({ open, onClose }) => {
         <p className="text-center text-2xl mb-6">Create New Topic</p>
         <div className="mb-6">
           <p className="text-xl">Title</p>
-          <input
-            type="text"
-            placeholder="Topic Title..."
-            className="bg-borderColor p-4 w-full rounded-xl"
-            value={topicData.title}
-            onChange={(e) => {
+          <TextInput placeholder={"Topic Title..."} value={topicData.title} onChange={(e) => {
               setTopicdata({ ...topicData, title: e.target.value });
-            }}
-          />
+            }}/>
         </div>
       </div>
     </Modal>
