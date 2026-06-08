@@ -9,6 +9,7 @@ import {
   saveGlobalPassword,
 } from "../../services/globalPasswordServices";
 import PasswordInput from "../PasswordInput";
+import { formatText } from "../../utils/formatText";
 
 const UnlockTopicByPasswordModal = ({ open, onClose, topicId }) => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const UnlockTopicByPasswordModal = ({ open, onClose, topicId }) => {
   const [passwordError, setPasswordError] = useState("");
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
   const handleInputFieldsValidation = () => {
-    if (password.length > 0) {
+    if (formatText(password).length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
@@ -30,7 +31,7 @@ const UnlockTopicByPasswordModal = ({ open, onClose, topicId }) => {
     setPasswordError("");
   };
   const handleUnlockTopic = async () => {
-    let checkPasswordResult = await checkGlobalPassword(password);
+    let checkPasswordResult = await checkGlobalPassword(formatText(password));
     if (checkPasswordResult) {
       unLockTopic(topicId, dispatch);
       resetInputFieldsAndErrorMessage();

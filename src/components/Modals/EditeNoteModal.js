@@ -4,6 +4,7 @@ import { editeNote } from "../../services/notesServices";
 import { useDispatch } from "react-redux";
 import TextInput from "../TextInput";
 import TextAreaInput from "../TextAreaInput";
+import { formatText } from "../../utils/formatText";
 
 const EditeNoteModal = ({ open, onClose, noteDetails, topicId }) => {
   const [noteData, setNoteData] = useState({ title: "", description: "" });
@@ -16,7 +17,10 @@ const EditeNoteModal = ({ open, onClose, noteDetails, topicId }) => {
     });
   }, [open, noteDetails]);
   const handleInputFieldsValidation = () => {
-    if (noteData.title.length > 0 && noteData.description.length > 0) {
+    if (
+      formatText(noteData.title).length > 0 &&
+      formatText(noteData.description).length > 0
+    ) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
@@ -36,7 +40,16 @@ const EditeNoteModal = ({ open, onClose, noteDetails, topicId }) => {
         resetNoteData();
       }}
       onConfirm={() => {
-        editeNote(topicId, noteDetails.id, noteData, dispatch);
+        editeNote(
+          topicId,
+          noteDetails.id,
+          {
+            ...noteData,
+            title: formatText(noteData.title),
+            description: formatText(noteData.description),
+          },
+          dispatch,
+        );
         onClose();
         resetNoteData();
       }}

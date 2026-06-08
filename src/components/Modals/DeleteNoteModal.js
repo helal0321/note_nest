@@ -23,8 +23,7 @@ const DeleteNoteModal = ({ open, onClose, topicId, noteId }) => {
         </div>
         <p className="text-3xl mb-4">Delete Note?</p>
         <p className="text-xl text-secondaryText">
-          This action cannot be undone. the Note will be permanently
-          deleted.{" "}
+          This action cannot be undone. the Note will be permanently deleted.
         </p>
       </div>
     </Modal>

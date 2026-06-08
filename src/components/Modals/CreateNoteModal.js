@@ -4,6 +4,7 @@ import { addNote } from "../../services/notesServices";
 import { useDispatch } from "react-redux";
 import TextInput from "../TextInput";
 import TextAreaInput from "../TextAreaInput";
+import { formatText } from "../../utils/formatText";
 
 const CreateNoteModal = ({ open, onClose, topicId }) => {
   const [noteData, setNoteData] = useState({
@@ -14,7 +15,10 @@ const CreateNoteModal = ({ open, onClose, topicId }) => {
   const dispatch = useDispatch();
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
   const handleInputFieldsValidation = () => {
-    if (noteData.title.length > 0 && noteData.description.length > 0) {
+    if (
+      formatText(noteData.title).length > 0 &&
+      formatText(noteData.description).length > 0
+    ) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
@@ -30,7 +34,15 @@ const CreateNoteModal = ({ open, onClose, topicId }) => {
       day: "numeric",
       year: "numeric",
     });
-    addNote({ ...noteData, date: formattedDate }, topicId, dispatch);
+    addNote(
+      {
+        title: formatText(noteData.title),
+        description: formatText(noteData.description),
+        date: formattedDate,
+      },
+      topicId,
+      dispatch,
+    );
   };
   const resetNoteData = () => {
     setNoteData({ title: "", description: "", date: "" });

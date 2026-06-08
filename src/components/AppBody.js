@@ -19,6 +19,7 @@ import { TbLockPassword } from "react-icons/tb";
 import AddPasswordModal from "./Modals/AddPasswordModal";
 import EditPasswordModal from "./Modals/EditPasswordModal";
 import { checkGlobalPassword } from "../services/globalPasswordServices";
+import { formatText } from "../utils/formatText";
 const AppBody = () => {
   const dispatch = useDispatch();
   let [sidebarOpenned, setsidebarOpenned] = useState(true);
@@ -50,7 +51,11 @@ const AppBody = () => {
   }, [topics, selectedTopicId]);
   useEffect(() => {
     setFilteredNotes(
-      filterNotesBySearchtermAndDate(DateOption, searchValue, selectedTopic),
+      filterNotesBySearchtermAndDate(
+        DateOption,
+        formatText(searchValue),
+        selectedTopic,
+      ),
     );
   }, [searchValue, DateOption, selectedTopic]);
   let handleSidebarStatus = () => {

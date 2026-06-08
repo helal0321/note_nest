@@ -7,6 +7,7 @@ import {
   saveGlobalPassword,
 } from "../../services/globalPasswordServices";
 import PasswordInput from "../PasswordInput";
+import { formatText } from "../../utils/formatText";
 
 const EditPasswordModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
@@ -15,7 +16,10 @@ const EditPasswordModal = ({ open, onClose }) => {
   const [passwordMismatchError, setPasswordMismatchError] = useState("");
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
   const handleInputFieldsValidation = () => {
-    if (oldPassword.length > 0 && newPassword.length > 0) {
+    if (
+      formatText(oldPassword).length > 0 &&
+      formatText(newPassword).length > 0
+    ) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
@@ -31,9 +35,11 @@ const EditPasswordModal = ({ open, onClose }) => {
     setPasswordMismatchError("");
   };
   const handleEditPassword = async () => {
-    let passwordMatchResult = await checkGlobalPassword(oldPassword);
+    let passwordMatchResult = await checkGlobalPassword(
+      formatText(oldPassword),
+    );
     if (passwordMatchResult) {
-      saveGlobalPassword(newPassword);
+      saveGlobalPassword(formatText(newPassword));
       resetInputFieldsAndErrorMessage();
       onClose();
     } else {

@@ -4,13 +4,14 @@ import { addTopic } from "../../services/topicsServices";
 import { useDispatch } from "react-redux";
 import { saveGlobalPassword } from "../../services/globalPasswordServices";
 import PasswordInput from "../PasswordInput";
+import { formatText } from "../../utils/formatText";
 
 const AddPasswordModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const [password, setPassword] = useState("");
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
   const handleInputFieldsValidation = () => {
-    if (password.length > 0) {
+    if (formatText(password).length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
@@ -30,7 +31,7 @@ const AddPasswordModal = ({ open, onClose }) => {
         resetInputField();
       }}
       onConfirm={() => {
-        saveGlobalPassword(password);
+        saveGlobalPassword(formatText(password));
         resetInputField();
         onClose();
       }}

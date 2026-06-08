@@ -3,13 +3,14 @@ import Modal from "../Modal";
 import { addTopic } from "../../services/topicsServices";
 import { useDispatch } from "react-redux";
 import TextInput from "../TextInput";
+import { formatText } from "../../utils/formatText";
 
 const CreateTopicModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const [topicData, setTopicdata] = useState({ title: "", notes: [] });
   const [isInputsValueValid, setIsInputsValueValid] = useState(false);
   const handleInputFieldsValidation = () => {
-    if (topicData.title.length > 0) {
+    if (formatText(topicData.title).length > 0) {
       setIsInputsValueValid(true);
     } else {
       setIsInputsValueValid(false);
@@ -30,7 +31,10 @@ const CreateTopicModal = ({ open, onClose }) => {
         resetTopicData();
       }}
       onConfirm={() => {
-        addTopic(topicData, dispatch);
+        addTopic(
+          { ...topicData, title: formatText(topicData.title) },
+          dispatch,
+        );
         onClose();
         resetTopicData();
       }}

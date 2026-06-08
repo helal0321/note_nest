@@ -52,3 +52,11 @@ export const getNotesByTopicId = async (topicId) => {
     return notes;
   }
 };
+export const getNoteByTopicIdAndNoteId = async (topicId, noteId) => {
+  console.log("note id", noteId);
+  console.log("topic id", topicId);
+  let notes = await getNotesByTopicId(topicId);
+  let selectedNote = notes.filter((note) => note.id == noteId)[0];
+  console.log("selected note", selectedNote);
+  return selectedNote;
+};
