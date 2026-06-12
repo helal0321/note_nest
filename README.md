@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# NoteNest
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple offline note-taking app built with Electron + React. Lightweight and completely local — no cloud, no accounts, just your data on your machine.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Create, edit, and delete notes
+- Global password lock for sensitive topics
+- Notes stored locally using `electron-store`
+- Clean text formatting (trims whitespace, collapses extra spaces)
+- Modal UI for creating and editing notes
+- Redux for state management
+- Export and import topics and notes as JSON files
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Electron — desktop app shell
+- React — UI
+- Redux — state management
+- Tailwind CSS — styling
+- `electron-store` — local persistence
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+Clone the repo and install dependencies:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+git clone https://github.com/yourusername/note-nest.git
+cd note-nest
+npm install
+```
 
-### `npm run build`
+## Running Locally
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To run in development mode:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. In `electron.js`, make sure the app loads from `http://localhost:3000`.
+2. Run:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm run dev
+```
 
-### `npm run eject`
+This starts both the React dev server and Electron together.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Packaging the App
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To build a distributable desktop app:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Build the React app:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm run build
+```
 
-## Learn More
+2. In `electron.js`, update the load path to point to the build folder:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+mainWindow.loadURL(`file://${path.join(__dirname, "../build/index.html")}`);
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. Package with Electron Forge:
 
-### Code Splitting
+```bash
+npm run make
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This generates a platform-specific installer in the `out/` directory.
 
-### Analyzing the Bundle Size
+## Export and Import
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+NoteNest lets you back up and restore your data using JSON files.
 
-### Making a Progressive Web App
+**Export:** Select a topic or all notes and export them to a `.json` file saved anywhere on your machine.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Import:** Load a previously exported `.json` file to restore topics and notes. Imported data is merged with your existing notes.
 
-### Advanced Configuration
+This is useful for backups, moving data between machines, or sharing a set of notes with someone else.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Contributing
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Pull requests are welcome. If you have ideas for features or improvements, open an issue and let's discuss.
